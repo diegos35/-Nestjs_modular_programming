@@ -7,12 +7,13 @@ import { DatabaseModule } from './database/database.module';
 
 import { ConfigModule } from '@nestjs/config';
 
-const API_KEY = '1234567';
+/* const API_KEY = '1234567'; */
+import { environments } from './enviroments';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: '.env',
+      envFilePath: environments[process.env.NODE_ENV] || '.env',
       isGlobal: true,
     }),
     UsersModule,
@@ -23,10 +24,6 @@ const API_KEY = '1234567';
   controllers: [AppController],
   providers: [
     AppService, //useClases default providers
-    {
-      provide: 'API_KEY',
-      useValue: API_KEY,
-    },
     {
       provide: 'TASK',
       useFactory: async (http: HttpService) => {
