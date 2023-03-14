@@ -4,12 +4,13 @@ import { User } from '../entities/user.entity';
 import { CreateUserDto, UpdateUserDto } from '../dtos/user.dto';
 import { Order } from '../entities/order.entity';
 import { ProductsService } from 'src/products/services/products.service';
+import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class UsersService {
   constructor(
     private productService: ProductsService,
-    @Inject('API_KEY') private apiKey: string,
+    private configService: ConfigService,
   ) {}
 
   private counterId = 1;
@@ -23,6 +24,8 @@ export class UsersService {
   ];
 
   findAll() {
+    const apiKey = this.configService.get('APY_KEY');
+    console.log(apiKey);
     return this.users;
   }
 
