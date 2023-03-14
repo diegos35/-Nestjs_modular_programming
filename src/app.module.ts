@@ -9,11 +9,13 @@ import { ConfigModule } from '@nestjs/config';
 
 /* const API_KEY = '1234567'; */
 import { environments } from './enviroments';
+import config from 'config';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       envFilePath: environments[process.env.NODE_ENV] || '.env',
+      load: [config],
       isGlobal: true,
     }),
     UsersModule,
